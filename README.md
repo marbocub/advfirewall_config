@@ -58,6 +58,7 @@ outbound
 	Microsoft Security Essentials
 	avast! Antivirus
 	ESET SmartSecurity
+	VirtualBox
 	cygwin wget.exe
 	cygwin ssh.exe
 	cygwin scp.exe

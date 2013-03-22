@@ -84,16 +84,20 @@ call :AddRule "%ProgramFiles(x86)%\Mozilla Thunderbird\thunderbird.exe" ^
               out TCP %MAIL_REMOTE_IP% "25,587,465,110,995,143,993"
 
 rem vlc
-call :AddRule "%ProgramFiles%\VodeoLan\vlc.exe" out TCP any any
-call :AddRule "%ProgramFiles%\VodeoLan\vlc.exe" out UDP any any
+call :AddRule "%ProgramFiles(x86)%\VodeoLan\vlc.exe" out TCP any any
+call :AddRule "%ProgramFiles(x86)%\VodeoLan\vlc.exe" out UDP any any
 
 rem avast! Antivirus
-call :AddRule "%ProgramFiles%\avast software\Avast\avastui.exe" out TCP any "80,443"
+call :AddRule "%ProgramFiles(x86)%\avast software\Avast\avastui.exe" out TCP any "80,443"
 call :AddRule "avast! Antivirus" out TCP any any
 
 rem ESET SmartSecurity
-call :AddRule "%ProgramFiles%\ESET\ESET Smart Security\ekrn.exe" out TCP any "80,443,465,993"
+call :AddRule "%ProgramFiles(x86)%\ESET\ESET Smart Security\ekrn.exe" out TCP any "80,443,465,993"
 call :AddRule "ekrn" out TCP any "80,443,465,993"
+
+rem VirtualBox
+call :AddRule "%ProgramFiles(x86)%\Oracle\VirtualBox\virtualbox.exe" out TCP any any
+call :AddRule "%ProgramFiles(x86)%\Oracle\VirtualBox\virtualbox.exe" out UDP any any
 
 rem cygwin commands
 call :AddRule "%SystemDrive%\cygwin\etc\setup\setup.exe" out TCP any "21,80,443"
