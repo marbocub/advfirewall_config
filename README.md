@@ -63,6 +63,7 @@ outbound
 	cygwin ssh.exe
 	cygwin scp.exe
 	cygwin slogin.exe
+	cygwin mosh.exe
 	cygwin svn.exe
 	cygwin git.exe
 	Afxw Updater
