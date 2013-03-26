@@ -4,6 +4,7 @@ rem define
 rem ===================================================================
 set BROWSER_PORT="any"
 set SSH_PORT="22"
+set MOSH_PORT="60000-61000"
 
 set PRIVATE_IP="10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
 set MAIL_REMOTE_IP="any"
@@ -105,6 +106,8 @@ call :AddRule "%SystemDrive%\cygwin\bin\wget.exe"        out TCP any %BROWSER_PO
 call :AddRule "%SystemDrive%\cygwin\bin\ssh.exe"         out TCP any %SSH_PORT%
 call :AddRule "%SystemDrive%\cygwin\bin\scp.exe"         out TCP any %SSH_PORT%
 call :AddRule "%SystemDrive%\cygwin\bin\slogin.exe"      out TCP any %SSH_PORT%
+call :AddRule "%SystemDrive%\cygwin\bin\mosh.exe"        out TCP any %SSH_PORT%
+call :AddRule "%SystemDrive%\cygwin\bin\mosh.exe"        out UDP any %MOSH_PORT%
 call :AddRule "%SystemDrive%\cygwin\bin\svn.exe"         out TCP any "22,80,443"
 call :AddRule "%SystemDrive%\cygwin\bin\git.exe"         out TCP any "22,80,443"
 call :AddRule "%SystemDrive%\cygwin\lib\git-core\git-remote-ftp.exe"   out TCP any "21"
