@@ -59,6 +59,8 @@ set ProgramFiles(x86)=%ProgramFiles%
 rem Windows services
 call :AddRule "wuauserv" out TCP any "80,443"
 call :AddRule "W32Time"  out UDP any "123"
+call :AddRule "Spooler"  out TCP any "515,9100"
+call :AddRule "%SystemRoot%\system32\spoolsv.exe"  out TCP any "515,9100"
 
 rem Windows commands
 call :AddRule "%SystemRoot%\system32\telnet.exe"   out TCP any any
@@ -85,20 +87,26 @@ call :AddRule "%ProgramFiles(x86)%\Mozilla Thunderbird\thunderbird.exe" ^
               out TCP %MAIL_REMOTE_IP% "25,587,465,110,995,143,993"
 
 rem vlc
-call :AddRule "%ProgramFiles(x86)%\VodeoLan\vlc.exe" out TCP any any
-call :AddRule "%ProgramFiles(x86)%\VodeoLan\vlc.exe" out UDP any any
+call :AddRule "%ProgramFiles%\VodeoLan\vlc.exe" out TCP any any
+call :AddRule "%ProgramFiles%\VodeoLan\vlc.exe" out UDP any any
+
+rem winscp
+call :AddRule "%ProgramFiles(x86)%\WinSCP\WinSCP.exe" out TCP any 22
 
 rem avast! Antivirus
-call :AddRule "%ProgramFiles(x86)%\avast software\Avast\avastui.exe" out TCP any "80,443"
+call :AddRule "%ProgramFiles%\avast software\Avast\avastui.exe" out TCP any "80,443"
 call :AddRule "avast! Antivirus" out TCP any any
 
 rem ESET SmartSecurity
-call :AddRule "%ProgramFiles(x86)%\ESET\ESET Smart Security\ekrn.exe" out TCP any "80,443,465,993"
+call :AddRule "%ProgramFiles%\ESET\ESET Smart Security\ekrn.exe"        out TCP any "80,443,465,993"
+call :AddRule "%ProgramFiles%\ESET\ESET Endpoint Security\x86\ekrn.exe" out TCP any "80,443,465,993"
 call :AddRule "ekrn" out TCP any "80,443,465,993"
 
 rem VirtualBox
-call :AddRule "%ProgramFiles(x86)%\Oracle\VirtualBox\virtualbox.exe" out TCP any any
-call :AddRule "%ProgramFiles(x86)%\Oracle\VirtualBox\virtualbox.exe" out UDP any any
+call :AddRule "%ProgramFiles%\Oracle\VirtualBox\VirtualBox.exe" out TCP    any any
+call :AddRule "%ProgramFiles%\Oracle\VirtualBox\VirtualBox.exe" out UDP    any any
+call :AddRule "%ProgramFiles%\Oracle\VirtualBox\VirtualBox.exe" out ICMPv4 any any
+call :AddRule "%ProgramFiles%\Oracle\VirtualBox\VirtualBox.exe" out ICMPv6 any any
 
 rem cygwin commands
 call :AddRule "%SystemDrive%\cygwin\etc\setup\setup.exe" out TCP any "21,80,443"
@@ -126,7 +134,7 @@ rem ===================================================================
 rem subroutine
 rem 
 rem usage:
-rem   call :AddRule "fullpath\name.exe" out TCP address port
+rem   call :AddRule "fullpath\name.exe" out protocol address port
 rem 
 rem example:
 rem   call :AddRule "%SystemRoot%\system32\telnet.exe" out TCP LOCALSUBNET 23
@@ -138,19 +146,36 @@ rem -------------------------------------------------------------------
 :AddRule
 if not EXIST %1 goto AddRule_service
 @echo add outbound rule for %~n1%~x1
+if %3 == ICMPv4 goto AddRule_icmp
+if %3 == ICMPv6 goto AddRule_icmp
 netsh advfirewall firewall add rule action=allow ^
       name="%~n1%~x1 %~3 %~4 %~5" ^
       program=%1 dir=%2 protocol=%3 remoteip=%4 remoteport=%5 
 goto AddRule_end
+:AddRule_icmp
+netsh advfirewall firewall add rule action=allow ^
+      name="%~n1%~x1 %~3 %~4" ^
+      program=%1 dir=%2 protocol=%3 remoteip=%4 
+goto AddRule_end
 
 :AddRule_service
 sc qc %1 > nul
-if ERRORLEVEL 1 goto AddRule_end
+if ERRORLEVEL 1 goto AddRule_notfound
 @echo add outbound rule for %~1 service
+if %3 == ICMPv4 goto AddRule_service_icmp
+if %3 == ICMPv6 goto AddRule_service_icmp
 netsh advfirewall firewall add rule action=allow ^
       name="(service) %~1 %~3 %~4 %~5" ^
       service=%1 dir=%2 protocol=%3 remoteip=%4 remoteport=%5 
 goto AddRule_end
+:AddRule_service_icmp
+netsh advfirewall firewall add rule action=allow ^
+      name="(service) %~1 %~3 %~4" ^
+      service=%1 dir=%2 protocol=%3 remoteip=%4 
+goto AddRule_end
+
+:AddRule_notfound
+rem @echo %1 notfound
 
 :AddRule_end
 exit /B

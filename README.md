@@ -47,6 +47,7 @@ outbound
 	NetBIOS/SMB (private network only)
 	Windows Update Service
 	Windows Time Service
+	Windows Spooler Service
 	system32\telnet.exe
 	system32\nslookup.exe
 	system32\ftp.exe
@@ -55,6 +56,7 @@ outbound
 	Google Chrome
 	Mozilla ThunderBird
 	VideoLan Client
+	WinSCP
 	Microsoft Security Essentials
 	avast! Antivirus
 	ESET SmartSecurity
