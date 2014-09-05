@@ -39,6 +39,8 @@ inbound
 -------
 
 	Remote Desktop
+	ftp(client)
+	Xming
 
 outbound
 --------
@@ -54,13 +56,19 @@ outbound
 	system32\mstsc.exe
 	Internet Explorer
 	Google Chrome
+	Google Chrome canary
 	Mozilla ThunderBird
+	Pogoplug Backup
 	VideoLan Client
+	Janetter
+	Pochitter
 	WinSCP
+	RealVNC
 	Microsoft Security Essentials
 	avast! Antivirus
 	ESET SmartSecurity
 	VirtualBox
+	Xming XDMCP
 	cygwin wget.exe
 	cygwin ssh.exe
 	cygwin scp.exe
@@ -70,6 +78,7 @@ outbound
 	cygwin git.exe
 	Afxw Updater
 	IDManager ftp (local subnet only)
+	Secure Download Manager (Microsoft DreamSpark)
 
 License
 =======
