@@ -176,6 +176,10 @@ call :AddRule "%ProgramFiles(x86)%\idm\IDM.exe" out TCP %IDM_REMOTE_IP% "21"
 rem sdm
 call :AddRule "%LOCALAPPDATA%\e-academy Inc\SecureDownloadManager\SecureDownloadManager.exe" out TCP any "80,443"
 
+rem au WiFi connection tool
+call :AddRule "%ProgramFiles%\au wi-fiê⁄ë±ÉcÅ[Éã\au_wifi_connect.exe" out TCP any any
+call :AddRule "auWifiConnectSvc" out TCP any any
+
 rem ===================================================================
 rem subroutine
 rem 

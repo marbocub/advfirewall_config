@@ -79,6 +79,7 @@ outbound
 	Afxw Updater
 	IDManager ftp (local subnet only)
 	Secure Download Manager (Microsoft DreamSpark)
+	auWifiConnectSvc / au_Wifi_Connect
 
 License
 =======
